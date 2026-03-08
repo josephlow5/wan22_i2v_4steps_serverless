@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "name": "video_i2v",
+      "input": {
+        "prompt": "example prompt",
+        "image": "https://avatars.githubusercontent.com/u/80668891?v=4"
+      },
+      "timeout": 10000
+    }
+  ],
+  "config": {
+	"gpuCount": 1,
+	"allowedCudaVersions": ["12.8"]
+  }
+}
