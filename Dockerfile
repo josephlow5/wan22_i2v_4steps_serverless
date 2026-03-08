@@ -227,5 +227,7 @@ RUN pip install sageattention runpod websocket-client
 RUN chmod +x /start.sh
 
 COPY handler.py /workspace/runpod-slim/ComfyUI/handler.py
+COPY workflow /workspace/runpod-slim/ComfyUI/workflow
+COPY example_image.png /workspace/runpod-slim/ComfyUI/example_image.png
 
 ENTRYPOINT ["/start.sh"]
