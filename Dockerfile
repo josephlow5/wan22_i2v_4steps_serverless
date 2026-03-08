@@ -26,7 +26,7 @@ RUN cd /ComfyUI/custom_nodes && \
 RUN cd /ComfyUI/custom_nodes && \
     git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
 	
-RUN mkdir -p /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife && wget https://huggingface.co/hfmaster/models-moved/resolve/cab6dcee2fbb05e190dbb8f536fbdaa489031a14/rife/rife49.pth -q -O /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife/rife49.pth
+RUN mkdir -p /ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife && wget https://huggingface.co/hfmaster/models-moved/resolve/cab6dcee2fbb05e190dbb8f536fbdaa489031a14/rife/rife49.pth -q -O /ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife/rife49.pth
 	
 RUN rm -rf /ComfyUI/models/diffusion_models && \
     rm -rf /ComfyUI/models/loras && \
@@ -43,10 +43,9 @@ RUN cd /ComfyUI/custom_nodes && \
 
 RUN pip install sageattention runpod websocket-client
 
-RUN chmod +x /start.sh
 
-COPY handler.py /workspace/runpod-slim/ComfyUI/handler.py
-COPY workflow /workspace/runpod-slim/ComfyUI/workflow
-COPY example_image.png /workspace/runpod-slim/ComfyUI/example_image.png
+COPY . .
+
+RUN chmod +x /start.sh
 
 CMD ["/start.sh"]
