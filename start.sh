@@ -238,7 +238,7 @@ else
 fi
 
 echo "Starting the handler..."
-nohup python handler.py &> /workspace/runpod-slim/comfyui.log
+nohup python handler.py &> /workspace/runpod-slim/comfyui.log &
 
 # Tail the log file
 tail -f /workspace/runpod-slim/comfyui.log
