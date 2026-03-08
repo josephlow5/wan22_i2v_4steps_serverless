@@ -198,4 +198,6 @@ RUN cd /workspace/runpod-slim/ComfyUI/custom_nodes && \
 
 RUN pip install sageattention runpod websocket-client
 
+RUN chmod +x /start.sh
+
 ENTRYPOINT ["/start.sh"]
