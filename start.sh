@@ -226,19 +226,19 @@ if [ -s "$ARGS_FILE" ]; then
     CUSTOM_ARGS=$(grep -v '^#' "$ARGS_FILE" | tr '\n' ' ')
     if [ ! -z "$CUSTOM_ARGS" ]; then
         echo "Starting ComfyUI with additional arguments: $CUSTOM_ARGS"
-        nohup python main.py $FIXED_ARGS $CUSTOM_ARGS &> /workspace/runpod-slim/comfyui.log &
+        nohup python main.py $FIXED_ARGS $CUSTOM_ARGS &> /workspace/runpod-slim/comfyui.log 2>&1 &
     else
         echo "Starting ComfyUI with default arguments"
-        nohup python main.py $FIXED_ARGS &> /workspace/runpod-slim/comfyui.log &
+        nohup python main.py $FIXED_ARGS &> /workspace/runpod-slim/comfyui.log 2>&1 &
     fi
 else
     # File is empty, use only fixed args
     echo "Starting ComfyUI with default arguments"
-    nohup python main.py $FIXED_ARGS &> /workspace/runpod-slim/comfyui.log &
+    nohup python main.py $FIXED_ARGS &> /workspace/runpod-slim/comfyui.log 2>&1 &
 fi
 
 echo "Starting the handler..."
-nohup python handler.py &> /workspace/runpod-slim/comfyui.log &
+nohup python handler.py > /workspace/runpod-slim/handler.log 2>&1 &
 
 # Tail the log file
-tail -f /workspace/runpod-slim/comfyui.log
+tail -f /workspace/runpod-slim/comfyui.log /workspace/runpod-slim/handler.log
