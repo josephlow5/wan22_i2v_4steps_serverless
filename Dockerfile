@@ -217,7 +217,7 @@ RUN cd /workspace/runpod-slim/ComfyUI/custom_nodes && \
 RUN cd /workspace/runpod-slim/ComfyUI/custom_nodes && \
     git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
 	
-RUN mkdir -p /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife && wget https://huggingface.co/hfmaster/models-moved/resolve/cab6dcee2fbb05e190dbb8f536fbdaa489031a14/rife/rife49.pth -O /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife/rife49.pth
+RUN mkdir -p /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife && wget https://huggingface.co/hfmaster/models-moved/resolve/cab6dcee2fbb05e190dbb8f536fbdaa489031a14/rife/rife49.pth -q -O /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife/rife49.pth
 
 RUN cd /workspace/runpod-slim/ComfyUI/custom_nodes && \
     git clone https://github.com/princepainter/ComfyUI-PainterI2V.git
