@@ -189,9 +189,7 @@ RUN cd /workspace/runpod-slim/ComfyUI/custom_nodes && \
     pip install -r requirements.txt
 
 RUN cd /workspace/runpod-slim/ComfyUI/custom_nodes && \
-    git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git && \
-    cd ComfyUI-Frame-Interpolation && \
-    python3.12 install.py
+    git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git
 	
 RUN mkdir -p /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife && wget https://huggingface.co/hfmaster/models-moved/resolve/cab6dcee2fbb05e190dbb8f536fbdaa489031a14/rife/rife49.pth -O /workspace/runpod-slim/ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife/rife49.pth
 
