@@ -157,14 +157,15 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
 
 # Here start my script
 
+# === [START] Deprecated: Bake models in Docker Image ===
 # Create model storage directories
-RUN mkdir -p /comfy-storage/models/diffusion_models && \
+# RUN mkdir -p /comfy-storage/models/diffusion_models && \
     mkdir -p /comfy-storage/models/loras && \
     mkdir -p /comfy-storage/models/text_encoders && \
     mkdir -p /comfy-storage/models/vae
 
 # Download LoRA and diffusion models
-RUN wget -O /comfy-storage/models/diffusion_models/wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors \
+# RUN wget -O /comfy-storage/models/diffusion_models/wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors \
         https://huggingface.co/lightx2v/Wan2.2-Distill-Models/resolve/main/wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors && \
     wget -O /comfy-storage/models/diffusion_models/wan2.2_i2v_A14b_low_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui.safetensors  \
         https://huggingface.co/lightx2v/Wan2.2-Distill-Models/resolve/main/wan2.2_i2v_A14b_low_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui.safetensors && \
@@ -172,9 +173,9 @@ RUN wget -O /comfy-storage/models/diffusion_models/wan2.2_i2v_A14b_high_noise_sc
         https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors && \
     wget -O /comfy-storage/models/vae/wan_2.1_vae.safetensors \
         https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors
-
+		
 # Replace ComfyUI model folders with symlinks to persistent storage
-RUN rm -rf /workspace/runpod-slim/ComfyUI/models/diffusion_models && \
+# RUN rm -rf /workspace/runpod-slim/ComfyUI/models/diffusion_models && \
     rm -rf /workspace/runpod-slim/ComfyUI/models/loras && \
     rm -rf /workspace/runpod-slim/ComfyUI/models/text_encoders && \
     rm -rf /workspace/runpod-slim/ComfyUI/models/vae && \
@@ -182,6 +183,31 @@ RUN rm -rf /workspace/runpod-slim/ComfyUI/models/diffusion_models && \
     ln -s /comfy-storage/models/loras /workspace/runpod-slim/ComfyUI/models/loras && \
     ln -s /comfy-storage/models/text_encoders /workspace/runpod-slim/ComfyUI/models/text_encoders && \
     ln -s /comfy-storage/models/vae /workspace/runpod-slim/ComfyUI/models/vae
+# === [END] Deprecated: Bake models in Docker Image ===
+
+
+# === [START] Use Runpod Network Volume ===
+
+# Download to your network volume if not exist (when you are on Pod it is /workspace)
+# RUN wget -O /workspace/I2V_4steps/diffusion_models/wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors \
+        https://huggingface.co/lightx2v/Wan2.2-Distill-Models/resolve/main/wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors && \
+    wget -O /workspace/I2V_4steps/diffusion_models/wan2.2_i2v_A14b_low_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui.safetensors  \
+        https://huggingface.co/lightx2v/Wan2.2-Distill-Models/resolve/main/wan2.2_i2v_A14b_low_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui.safetensors && \
+    wget -O /workspace/I2V_4steps/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors \
+        https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors && \
+    wget -O /workspace/I2V_4steps/vae/wan_2.1_vae.safetensors \
+        https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors
+
+# Replace ComfyUI model folders with symlinks to persistent storage
+RUN rm -rf /workspace/runpod-slim/ComfyUI/models/diffusion_models && \
+    rm -rf /workspace/runpod-slim/ComfyUI/models/loras && \
+    rm -rf /workspace/runpod-slim/ComfyUI/models/text_encoders && \
+    rm -rf /workspace/runpod-slim/ComfyUI/models/vae && \
+    ln -s /runpod-volume/I2V_4steps/diffusion_models /workspace/runpod-slim/ComfyUI/models/diffusion_models && \
+    ln -s /runpod-volume/I2V_4steps/loras /workspace/runpod-slim/ComfyUI/models/loras && \
+    ln -s /runpod-volume/I2V_4steps/text_encoders /workspace/runpod-slim/ComfyUI/models/text_encoders && \
+    ln -s /runpod-volume/I2V_4steps/vae /workspace/runpod-slim/ComfyUI/models/vae
+	
     
 RUN cd /workspace/runpod-slim/ComfyUI/custom_nodes && \
     git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite && \
