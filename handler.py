@@ -192,6 +192,14 @@ def handler(job):
 
     prompt = load_workflow(workflow_file)
     
+    precision  = job_input.get("precision ", "fp8_s")
+    if precision == "fp8_s":
+        prompt["37"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors"
+        prompt["56"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_low_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui.safetensors"
+    elif precision == "fp16":
+        prompt["37"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_high_noise_lightx2v_4step_1030.safetensors"
+        prompt["56"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_low_noise_lightx2v_4step.safetensors"
+    
     #Sampling: Cfg, steps, seeds
     cfg = job_input.get("cfg", 1.0)
     steps = int(job_input.get("steps", 4))
