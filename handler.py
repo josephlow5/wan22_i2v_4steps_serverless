@@ -194,11 +194,17 @@ def handler(job):
     
     precision  = job_input.get("precision ", "fp8_s")
     if precision == "fp8_s":
-        prompt["37"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors"
-        prompt["56"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_low_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui.safetensors"
+        wan22_i2v_fp8_s_high_model = "wan2.2_i2v_A14b_high_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui_1030.safetensors"
+        wan22_i2v_fp8_s_low_model = "wan2.2_i2v_A14b_low_noise_scaled_fp8_e4m3_lightx2v_4step_comfyui.safetensors"
+        prompt["37"]["inputs"]["unet_name"] = wan22_i2v_fp8_s_high_model
+        prompt["56"]["inputs"]["unet_name"] = wan22_i2v_fp8_s_low_model
+        logger.info(f"using fp8_s model: {wan22_i2v_fp8_s_high_model}, {wan22_i2v_fp8_s_low_model}")
     elif precision == "fp16":
-        prompt["37"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_high_noise_lightx2v_4step_1030.safetensors"
-        prompt["56"]["inputs"]["unet_name"] = "wan2.2_i2v_A14b_low_noise_lightx2v_4step.safetensors"
+        wan22_i2v_fp16_high_model = "wan2.2_i2v_A14b_high_noise_lightx2v_4step_1030.safetensors"
+        wan22_i2v_fp16_low_model = "wan2.2_i2v_A14b_low_noise_lightx2v_4step.safetensors"
+        prompt["37"]["inputs"]["unet_name"] = wan22_i2v_fp16_high_model
+        prompt["56"]["inputs"]["unet_name"] = wan22_i2v_fp16_low_model
+        logger.info(f"using fp16 model: {wan22_i2v_fp16_high_model}, {wan22_i2v_fp16_low_model}")
     
     #Sampling: Cfg, steps, seeds
     cfg = job_input.get("cfg", 1.0)
